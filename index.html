@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa|Poppins|Open+Sans">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"> -->
+    <!-- Page Icon -->
+    <link rel="icon" type="image/x-icon" href="/Assets/Logo/passwordly-icon.png">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Styles/style.css">
+    <link rel="stylesheet" href="/Styles/length-control.css">
+    <title>Passwordly | Random Password Generator</title>
+</head>
+
+<body>
+    <div class="bar-content">
+        <h2 id="sub-title" style="font-family: 'Poppins'; font-size: large;">Keep your online presence safe as a
+            bank vault
+            by creating strong
+            passwords that even a hacker's grandma couldn't
+            crack!</h2>
+        <div>
+            <span style="font-family: 'Poppins'; font-size: 18px;">Maximize Your Online Security with Passwordly's
+                Random Passwords</span>
+        </div>
+    </div>
+    <div>
+        <img src="/Image/Background/Passwordly-Logo.png" alt="Passwordly Logo" style="width: 1080px; height: auto;">
+    </div>
+
+    <p onload=changeSubTitle(); style="font-family:'Comfortaa'; font-weight: bolder; font-size: 80px">Random Password
+        Generator</p>
+    <div>
+        <input type="checkbox" id="uppercaseCheckbox" checked />
+        <label for="uppercaseCheckbox">ABCD</label>
+        <input type="checkbox" id="lowercaseCheckbox" checked />
+        <label for="lowercaseCheckbox">abcd</label>
+        <input type="checkbox" id="numberCheckbox" checked />
+        <label for="numberCheckbox">0123</label>
+        <input type="checkbox" id="specialCheckbox" />
+        <label for="specialCheckbox">@#$%</label>
+    </div>
+    <div id="lengthControl">
+        <label for="passwordLength">Password Length:</label>
+        <button id="minusButton" style="border: 0; border-radius: 50%;">
+            <img src="/Image/icons8-minus.gif" alt="Minus Icon"
+                style="border: 0; border-radius: 50%; width: 40px; height: auto; cursor: pointer;">
+        </button> <input type="range" min="8" max="60" value="16" id="passwordLength" />
+        <span id="passwordLengthValue">8</span>
+        <button id="plusButton" style="border: 0; border-radius: 50%;">
+            <img src="/Image/icons8-plus.gif" alt="Plus Icon"
+                style="border: 0; border-radius: 50%; width: 40px; height: auto; cursor: pointer;">
+        </button>
+    </div>
+    <!-- <label for="passwordLengthValue" id="passwordStrength"></label><br> -->
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="text" id="password" readonly />
+        <button id="copyBtn">Copy to Clipboard</button>
+    </div>
+    <div style="background-color: #E9EBEE; text-align: center; padding: 10px;">
+        <p style="font-size: 18px; font-weight: 700; font-family: 'Poppins';">Developed By <a href="https://bit.ly/3HO1sCn" style="font-style:normal; text-decoration: none; color: blueviolet;" alt="Github Profile" target="_blank">Shree Kumar Sharma<span style="display: none;">Shree Kumar Sharma | @shreesharma07</span></a></p>
+        <p>Copyright © <span id="yearSpan" onload=getCurrentYear();>YEAR</span><br><b>All Rights Reserved</b></p>
+    </div>
+    <script>
+        const uppercaseCheckbox = document.getElementById("uppercaseCheckbox");
+        const lowercaseCheckbox = document.getElementById("lowercaseCheckbox");
+        const numberCheckbox = document.getElementById("numberCheckbox");
+        const specialCheckbox = document.getElementById("specialCheckbox");
+        const passwordLength = document.getElementById("passwordLength");
+        const passwordLengthValue = document.getElementById("passwordLengthValue");
+        const password = document.getElementById("password");
+        const copyBtn = document.getElementById("copyBtn");
+        const passwordStrength = document.getElementById("passwordStrength");
+
+
+        passwordLength.addEventListener("input", function () {
+            passwordLengthValue.textContent = passwordLength.value;
+            password.value = generatePassword();
+        });
+
+        function generatePassword() {
+            let passwordOptions = [];
+            let checkedTypes = 0;
+            if (uppercaseCheckbox.checked) {
+                checkedTypes++;
+                passwordOptions.push([..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')]);
+            }
+            if (lowercaseCheckbox.checked) {
+                checkedTypes++;
+                passwordOptions.push([..."abcdefghijklmnopqrstuvwxyz".split('')]);
+            }
+            if (numberCheckbox.checked) {
+                checkedTypes++;
+                passwordOptions.push([..."0123456789".split('')]);
+            }
+            if (specialCheckbox.checked) {
+                checkedTypes++;
+                passwordOptions.push([..."!@#$%^&*()/+=\\".split('')]);
+            }
+            passwordOptions = passwordOptions.flat(Infinity)
+            let generatedPassword = "";
+            for (let i = 0; i < passwordLength.value; i++) {
+                generatedPassword += passwordOptions[Math.floor(Math.random() * passwordOptions.length)]
+            }
+            let passwordStrength = "";
+
+            if (generatedPassword.length <= 12 && checkedTypes <= 2) {
+                passwordStrength = "Weak";
+            } else if (generatedPassword.length <= 24 && checkedTypes <= 3) {
+                passwordStrength = "Strong";
+            } else if (generatedPassword.length <= 36 && checkedTypes <= 4) {
+                passwordStrength = "Extra Strong";
+            } else if (generatePassword.length >= 20 && generatePassword.length <= 60 && checkedTypes <= 4) {
+                passwordStrength = "Extreme Strong";
+            } else {
+                passwordStrength = "Strong";
+            }
+
+            passwordStrength.textContent = passwordStrength;
+            console.log({ passwordStrength });
+
+
+            return generatedPassword;
+        }
+
+        uppercaseCheckbox.addEventListener("change", function () {
+            password.value = generatePassword();
+        });
+        lowercaseCheckbox.addEventListener("change", function () {
+            password.value = generatePassword();
+        });
+        numberCheckbox.addEventListener("change", function () {
+            password.value = generatePassword();
+        });
+        specialCheckbox.addEventListener("change", function () {
+            password.value = generatePassword();
+        });
+
+        copyBtn.addEventListener("click", function () {
+            password.select();
+            document.execCommand("copy");
+            alert("Password copied to clipboard");
+        });
+
+        password.value = generatePassword();
+
+        function changeSubTitle() {
+            const subTitle = document.getElementById('sub-title');
+            const subTitleOptions = {
+                "0": "Keep your online presence safe as a bank vault by creating strong passwords that even a hacker's grandma couldn't crack!",
+                "1": "Protect your digital life with passwords that would make a hacker say \"Oh no, not this one again\!\"",
+                "2": "Don't let hackers have a field day with your account, create passwords that are stronger than a superhero's shield.",
+                "3": "Make your passwords unbreakable like a wizard's spell, keep your online life secure and spellbinding!",
+                "4": "Passwords so strong, not even a dragon's fire could melt them. Stay protected online, always.",
+                "5": "Say goodbye to weak passwords, hello to superhero level protection! Create strong passwords now.",
+                "6": "Make your passwords un-crackable, like a puzzle that even Einstein couldn't solve.",
+                "7": "Turn your passwords into secret codes, stronger than any spy's cover.",
+                "8": "Create passwords so secure, not even a time traveler could access them.",
+            }
+
+            const keysLength = Object.keys(subTitleOptions).length || 1;
+            subTitle.innerHTML = subTitleOptions[`${Math.floor(Math.random() * keysLength)}`]
+
+        }
+        window.onload = changeSubTitle();
+
+        window.onload = function () {
+            // const minusButton = document.getElementById("minusButton");
+            // const plusButton = document.getElementById("plusButton");
+            // const lengthDisplay = document.getElementById("lengthDisplay");
+            // const passwordLength = document.getElementById('passwordLengthValue');
+            // let length = parseInt(passwordLength.innerHTML);
+
+            // minusButton.addEventListener("click", function () {
+            //     if (length) {
+            //         passwordLength.innerHTML = length--;
+            //         changeSubTitle({ length: length });
+            //     }
+            // });
+
+            // plusButton.addEventListener("click", function () {
+            //     if (length) {
+            //         passwordLength.innerHTML = length++;
+            //         changeSubTitle({ length: length });
+            //     }
+            // });
+        };
+
+        // * // Get Current Year Function //
+        function getCurrentYear() {
+            const date = new Date();
+            const year = new Intl.DateTimeFormat('en-US', {
+                year: 'numeric', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            }).format(date);
+            const yearSpans = document.getElementById('yearSpan');
+            yearSpans.innerHTML = parseInt(year)
+        }
+
+        window.onload = getCurrentYear();
+
+    </script>
+</body>
+
+</html>

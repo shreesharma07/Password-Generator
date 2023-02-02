@@ -1,0 +1,20 @@
+#lengthControl {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+img {
+    height: 20px;
+    width: 20px;
+}
+
+#lengthDisplay {
+    font-size: 20px;
+    margin: 0 10px;
+}
